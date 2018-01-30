@@ -41,10 +41,9 @@
 </script>
 
 <style>
-  html {
-    overflow: hidden;
+  .footer {
+    height: 56px;
   }
-
   .footer > *:first-child {
     margin: 0;
   }
