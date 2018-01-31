@@ -72,6 +72,7 @@ export default {
         var data = {}
         Object.assign(data, this.timePickerAlarm)
         data.time = this.timePickerTime
+        data.enabled = true
         if (this.timePickerAlarm.id) {
           this.$store.dispatch('updateAlarm', {id: this.timePickerAlarm.id, data})
         }
