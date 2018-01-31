@@ -8,15 +8,15 @@ function resolve (dir) {
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, '..', 'static'),
+    publicPath: '/static/',
     filename: 'build.js'
   },
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      'public': path.resolve(__dirname, './public'),
+      'public': path.resolve(__dirname, '..', 'static', 'public'),
       '@': resolve('src')
     }
   },
