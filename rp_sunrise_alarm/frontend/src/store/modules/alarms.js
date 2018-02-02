@@ -1,4 +1,3 @@
-import vue from 'vue'
 import alarms from '@/api/alarms'
 import * as types from '@/store/mutation-types'
 
