@@ -6,7 +6,7 @@ import flask_restless
 import requests
 
 from rp_sunrise_alarm import model
-from rp_sunrise_alarm import eventloop
+from rp_sunrise_alarm import comm
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
@@ -26,6 +26,8 @@ def create_app():
                    template_folder=os.path.join(ROOT_PATH, 'frontend'))
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+    app.config['REDIS_QUEUE_KEY'] = 'rp_sunrise_alarm_alarm_queue'
+    app.config['REDIS_STATE_KEY'] = 'rp_sunrise_alarm_state'
 
     model.db.init_app(app)
     model.db.app = app
@@ -36,35 +38,25 @@ def create_app():
                        url_prefix='/api/1.0',
                        methods=['GET', 'POST', 'PATCH', 'DELETE'])
 
-    event_loop_thread = eventloop.EventLoopThread()
-    event_loop_thread.app = app
-    event_loop_thread.start()
-
-    app.event_loop_thread = event_loop_thread
-
-    atexit.register(event_loop_thread.stop)
-
     return app
 
 
 app = create_app()
 
+
 @app.route('/api/1.0/light', methods = ['GET'])
 def get_light():
-    state = app.event_loop_thread.state
-    with state.lock:
-        return flask.jsonify({'on': state.light_on})
+    state = comm.get_state(app)
+    return flask.jsonify({'on': state.light_on})
 
 
 @app.route('/api/1.0/light', methods = ['PATCH'])
 def patch_light():
-    state = app.event_loop_thread.state
-    with state.lock:
-        new_state = bool(flask.request.json.get('on'))
-        print(new_state, state.light_on)
-        if new_state != state.light_on:
-            app.event_loop_thread.switch_light(new_state)
-        return flask.jsonify({'on': new_state})
+    state = comm.get_state(app)
+    new_light_on = bool(flask.request.json.get('on'))
+    if new_light_on != state.light_on:
+        comm.send_message(app, comm.SetLightStateMessage(on=new_light_on))
+    return flask.jsonify({'on': new_light_on})
 
 
 @app.route('/', defaults={'path': ''})
