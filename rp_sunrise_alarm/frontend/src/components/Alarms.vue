@@ -24,6 +24,11 @@
                 </v-avatar>
               </v-flex>
             </v-layout>
+            <v-layout row v-if="alarm.nextAlarm">
+              <v-flex xs12>
+                Rings in {{ nextAlarmLabel(alarm.nextAlarm) }}
+              </v-flex>
+            </v-layout>
           </v-container>
           <v-card-actions>
             <v-btn v-on:click="deleteAlarm(alarm)" flat color="red">Delete</v-btn>
@@ -44,6 +49,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import moment from 'moment'
 
 export default {
   name: 'Alarms',
@@ -111,6 +117,12 @@ export default {
         result.push({id: day.id, label: day.label, on: day.id & alarm.repeatDays})
       }
       return result
+    },
+    nextAlarmLabel (nextAlarm) {
+      if (nextAlarm == null) {
+        return ''
+      }
+      return moment(nextAlarm).fromNow()
     }
   },
   created () {

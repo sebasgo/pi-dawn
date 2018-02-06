@@ -26,7 +26,7 @@ const actions = {
     commit(types.UPDATE_ALARM, {id, data})
     commit(types.SORT_ALARMS)
     alarms.updateAlarm(id, data, (alarm) => {
-      commit(types.UPDATE_ALARM, {id: alarm.id, alarm})
+      commit(types.UPDATE_ALARM, {id: alarm.id, data: alarm})
       commit(types.SORT_ALARMS)
     })
   },

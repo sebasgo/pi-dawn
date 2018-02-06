@@ -19,8 +19,8 @@ class Alarm(db.Model):
             'time': self.time,
             'enabled': self.enabled,
             'repeat': self.repeat,
-            'repeatDays': self.repeat_days
-
+            'repeatDays': self.repeat_days,
+            'nextAlarm': self.next_alarm.isoformat() if self.next_alarm else None
         }
 
     def update_from_dict(self, data):
