@@ -28,6 +28,8 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
     app.config['REDIS_QUEUE_KEY'] = 'rp_sunrise_alarm_alarm_queue'
     app.config['REDIS_STATE_KEY'] = 'rp_sunrise_alarm_state'
+    app.config['ALARM_PRE_DURATION'] = 120
+    app.config['ALARM_POST_DURATION'] = 120
 
     model.db.init_app(app)
     model.db.app = app

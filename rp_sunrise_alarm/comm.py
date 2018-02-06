@@ -17,7 +17,6 @@ class StopMessage(Message):
 @attr.s
 class SetLightStateMessage(Message):
     on = attr.ib(type=bool)
-    active_alarm = attr.ib(type=int, default=-1)
 
 
 @attr.s
@@ -28,6 +27,7 @@ class ReloadAlarmsMessage(Message):
 @attr.s
 class State:
     light_on = attr.ib(type=bool, default=False)
+    active_alarm = attr.ib(type=int, default=-1)
 
 
 def send_message(app, message):
@@ -53,4 +53,3 @@ def get_state(app):
     if data is None:
         return State()
     return pickle.loads(data)
-

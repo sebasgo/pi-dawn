@@ -1,4 +1,5 @@
 import signal
+import datetime
 
 import attr
 
@@ -22,43 +23,51 @@ state = comm.State()
 alarms = model.Alarm.query.all()
 led_screen = hw.LedScreen(width=10, height=32)
 
-surface = led_screen.make_surface()
-surface.draw_gradient([
-    graphics.GradientStop(0.0, 0, 0, 0),
-    graphics.GradientStop(0.8, 0, 0, 0),
-    graphics.GradientStop(1.0, 255, 0, 0),
-])
-led_screen.draw_surface(surface)
 
 comm.set_state(app, state)
 
+sunrise_alarm = graphics.Sunrise(led_screen)
 
-def handle_light_switch(state: comm.State, on: bool, led_screen):
-    if on:
-        state.light_on = True
-        surface = led_screen.make_surface()
+
+def configure_led_screen(state: comm.State, alarms, led_screen):
+    surface = led_screen.make_surface()
+
+    if state.light_on:
         surface.fill(255, 255, 255)
-        led_screen.draw_surface(surface)
     else:
-        state.light_on = False
-        surface = led_screen.make_surface()
-        surface.fill(0, 0, 0)
-        led_screen.draw_surface(surface)
+        active_alarm, alarm_pos = find_active_alarm(alarms)
+        if active_alarm is None:
+            surface.fill(0, 0, 0)
+            state.active_alarm = -1
+        else:
+            state.active_alarm = active_alarm.id
+            sunrise_alarm.draw(surface, alarm_pos)
+
+    led_screen.draw_surface(surface)
 
 
-def schedule_alarms(app, state, alarms):
-    pass
+
+def find_active_alarm(alarms):
+    now = datetime.datetime.now()
+    for alarm in alarms:
+        alarm_time = alarm.next_alarm()
+        diff = (now - alarm_time).total_seconds()
+        if diff < 0 and -diff < app.config['ALARM_PRE_DURATION']:
+            return alarm, diff / app.config['ALARM_PRE_DURATION']
+        elif diff > 0 and diff < app.config['ALARM_POST_DURATION']:
+            return alarm, diff / app.config['ALARM_POST_DURATION']
+    return None, 0
 
 
 while True:
     msg = comm.receive_message(app, timeout=1)
-    print(msg, isinstance(msg, comm.StopMessage))
     if isinstance(msg, comm.StopMessage):
         break
     elif isinstance(msg, comm.SetLightStateMessage):
-        handle_light_switch(state, msg.on, led_screen)
+        state.light_on = msg.on
     elif isinstance(msg, comm.ReloadAlarmsMessage):
-        alarms = model.Alarm.query.all()
+        alarms = model.Alarm.query.order_by(model.Alarm.time).all()
+    configure_led_screen(state, alarms, led_screen)
     print(state)
 
     comm.set_state(app, state)
