@@ -7,7 +7,7 @@ const $axios = axios.create({
 export default {
   getAlarms(cb) {
     $axios.get('alarm').then((response) => {
-      cb(response.data.objects)
+      cb(response.data)
     })
   },
   addAlarm(data, cb) {

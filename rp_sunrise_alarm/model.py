@@ -11,6 +11,22 @@ class Alarm(db.Model):
     enabled = db.Column(db.Boolean, nullable=False, default=True)
     repeat = db.Column(db.Boolean, nullable=False, default=False)
     repeatDays = db.Column(db.Integer, nullable=False, default=0)
+    nextAlarm = db.Column(db.DateTime, nullable=True)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'time': self.time,
+            'enabled': self.enabled,
+            'repeat': self.repeat,
+            'repeatDays': self.repeatDays
+        }
+
+    def update_from_dict(self, data):
+        self.time = data.get('time', self.time)
+        self.enabled = data.get('enabled', self.enabled)
+        self.repeat = data.get('repeat', self.repeat)
+        self.repeatDays = data.get('repeatDays', self.repeatDays)
 
     def next_alarm(self):
         today = datetime.date.today()

@@ -1,8 +1,6 @@
-import atexit
 import os
 
 import flask
-import flask_restless
 import requests
 
 from rp_sunrise_alarm import model
@@ -35,16 +33,55 @@ def create_app():
     model.db.app = app
     model.db.create_all()
 
-    manager = flask_restless.APIManager(app, flask_sqlalchemy_db=model.db)
-    manager.create_api(model.Alarm,
-                       url_prefix='/api/1.0',
-                       methods=['GET', 'POST', 'PATCH', 'DELETE'])
-
     return app
-
 
 app = create_app()
 
+
+@app.route('/api/1.0/alarm', methods=['GET'])
+def get_alarms():
+    alarms = model.Alarm.query.all()
+    return flask.jsonify([alarm.to_dict() for alarm in alarms])
+
+
+@app.route('/api/1.0/alarm', methods=['POST'])
+def add_alarm():
+    alarm = model.Alarm()
+    alarm.update_from_dict(flask.request.json)
+    model.db.session.add(alarm)
+    model.db.session.commit()
+    comm.send_message(app, comm.ReloadAlarmsMessage())
+    return flask.jsonify(alarm.to_dict())
+
+
+@app.route('/api/1.0/alarm/<int:id>', methods=['GET'])
+def get_alarm(id):
+    alarm = model.Alarm.query.filter(model.Alarm.id == id).first()
+    if alarm is None:
+        flask.abort(404)
+    return flask.jsonify(alarm.to_dict())
+
+
+@app.route('/api/1.0/alarm/<int:id>', methods=['PATCH'])
+def update_alarm(id):
+    alarm = model.Alarm.query.filter(model.Alarm.id == id).first()
+    if alarm is None:
+        flask.abort(404)
+    alarm.update_from_dict(flask.request.json)
+    model.db.session.commit()
+    comm.send_message(app, comm.ReloadAlarmsMessage())
+    return flask.jsonify(alarm.to_dict())
+
+
+@app.route('/api/1.0/alarm/<int:id>', methods=['DELETE'])
+def delete_alarm(id):
+    alarm = model.Alarm.query.filter(model.Alarm.id == id).first()
+    if alarm is None:
+        flask.abort(404)
+    model.db.session.delete(alarm)
+    model.db.session.commit()
+    comm.send_message(app, comm.ReloadAlarmsMessage())
+    return '', 204
 
 @app.route('/api/1.0/light', methods = ['GET'])
 def get_light():
@@ -59,6 +96,12 @@ def patch_light():
     if new_light_on != state.light_on:
         comm.send_message(app, comm.SetLightStateMessage(on=new_light_on))
     return flask.jsonify({'on': new_light_on})
+
+
+@app.route('/api', defaults={'path': ''})
+@app.route('/api/<path:path>')
+def api_four_oh_four(path):
+    flask.abort(404)
 
 
 @app.route('/', defaults={'path': ''})

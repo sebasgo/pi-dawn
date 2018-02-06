@@ -14,13 +14,11 @@ def shutdown(signum, frame):
     comm.send_message(app, comm.StopMessage())
 
 
-
 signal.signal(signal.SIGINT, shutdown)
 signal.signal(signal.SIGTERM, shutdown)
 
 state = comm.State()
 
-alarms = model.Alarm.query.all()
 led_screen = hw.LedScreen(width=10, height=32)
 
 
@@ -59,7 +57,10 @@ def find_active_alarm(alarms):
     return None, 0
 
 
+alarms = model.Alarm.query.all()
+
 while True:
+    model.db.session.rollback()
     msg = comm.receive_message(app, timeout=1)
     if isinstance(msg, comm.StopMessage):
         break
