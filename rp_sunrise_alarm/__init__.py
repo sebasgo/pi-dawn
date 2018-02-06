@@ -48,6 +48,7 @@ def get_alarms():
 def add_alarm():
     alarm = model.Alarm()
     alarm.update_from_dict(flask.request.json)
+    alarm.schedule_next_alarm()
     model.db.session.add(alarm)
     model.db.session.commit()
     comm.send_message(app, comm.ReloadAlarmsMessage())
@@ -68,6 +69,8 @@ def update_alarm(id):
     if alarm is None:
         flask.abort(404)
     alarm.update_from_dict(flask.request.json)
+    alarm.schedule_next_alarm()
+    model.db.session.add(alarm)
     model.db.session.commit()
     comm.send_message(app, comm.ReloadAlarmsMessage())
     return flask.jsonify(alarm.to_dict())

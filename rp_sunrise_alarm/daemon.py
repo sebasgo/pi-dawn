@@ -44,11 +44,12 @@ def configure_led_screen(state: comm.State, alarms, led_screen):
     led_screen.draw_surface(surface)
 
 
-
 def find_active_alarm(alarms):
     now = datetime.datetime.now()
     for alarm in alarms:
-        alarm_time = alarm.next_alarm()
+        alarm_time = alarm.next_alarm
+        if alarm_time is None:
+            continue
         diff = (now - alarm_time).total_seconds()
         if diff < 0 and -diff < app.config['ALARM_PRE_DURATION']:
             return alarm, diff / app.config['ALARM_PRE_DURATION']
@@ -60,13 +61,13 @@ def find_active_alarm(alarms):
 alarms = model.Alarm.query.all()
 
 while True:
-    model.db.session.rollback()
     msg = comm.receive_message(app, timeout=1)
     if isinstance(msg, comm.StopMessage):
         break
     elif isinstance(msg, comm.SetLightStateMessage):
         state.light_on = msg.on
     elif isinstance(msg, comm.ReloadAlarmsMessage):
+        model.db.session.rollback()
         alarms = model.Alarm.query.order_by(model.Alarm.time).all()
     configure_led_screen(state, alarms, led_screen)
     print(state)
