@@ -71,7 +71,7 @@ def find_active_alarm(alarms):
     return None, 0
 
 
-alarms = model.Alarm.query.all()
+alarms = model.Alarm.query.order_by(model.Alarm.time).all()
 
 while True:
     msg = comm.receive_message(app, timeout=1)
