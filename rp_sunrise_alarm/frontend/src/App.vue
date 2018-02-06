@@ -2,6 +2,10 @@
   <v-app dark>
     <v-toolbar fixed app color="indigo darken-4">
       <v-toolbar-title>Raspberry Pi Sunrise Alarm</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon v-on:click="reload()">
+        <v-icon>refresh</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-content>
       <router-view/>
@@ -35,6 +39,12 @@
         right: true,
         rightDrawer: false,
         title: 'Vuetify.js'
+      }
+    },
+    methods: {
+      reload () {
+        this.$store.dispatch('getAlarms')
+        this.$store.dispatch('getLight')
       }
     }
   }
