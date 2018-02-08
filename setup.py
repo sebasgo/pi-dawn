@@ -13,5 +13,17 @@ setup(
         'pygame',
         'redis',
         'requests',
-    ]
+    ],
+    extras_require={
+        'dev': [
+            'check-manifest',
+            'pygame',
+        ],
+    },
+
+    entry_points={
+        'console_scripts': [
+            'rp-sunrise-alarm-daemom=rp_sunrise_alarm.daemon:main',
+        ],
+    },
 )

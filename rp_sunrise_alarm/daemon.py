@@ -1,8 +1,6 @@
 import signal
 import datetime
 
-import attr
-
 from rp_sunrise_alarm import app
 from rp_sunrise_alarm import comm
 from rp_sunrise_alarm import graphics
@@ -14,20 +12,7 @@ def shutdown(signum, frame):
     comm.send_message(app, comm.StopMessage())
 
 
-signal.signal(signal.SIGINT, shutdown)
-signal.signal(signal.SIGTERM, shutdown)
-
-state = comm.State()
-
-led_screen = hw.LedScreen(width=10, height=32)
-
-
-comm.set_state(app, state)
-
-sunrise_alarm = graphics.Sunrise(led_screen)
-
-
-def configure_led_screen(state: comm.State, alarms, led_screen):
+def configure_led_screen(state, alarms, led_screen, sunrise_alarm):
     surface = led_screen.make_surface()
 
     if state.light_on:
@@ -71,19 +56,23 @@ def find_active_alarm(alarms):
     return None, 0
 
 
-alarms = model.Alarm.query.order_by(model.Alarm.time).all()
+def main():
+    signal.signal(signal.SIGINT, shutdown)
+    signal.signal(signal.SIGTERM, shutdown)
+    state = comm.State()
+    led_screen = hw.LedScreen(width=10, height=32)
+    sunrise_alarm = graphics.Sunrise(led_screen)
+    alarms = model.Alarm.query.order_by(model.Alarm.time).all()
 
-while True:
-    msg = comm.receive_message(app, timeout=1)
-    if isinstance(msg, comm.StopMessage):
-        break
-    elif isinstance(msg, comm.SetLightStateMessage):
-        state.light_on = msg.on
-    elif isinstance(msg, comm.ReloadAlarmsMessage):
-        model.db.session.rollback()
-        alarms = model.Alarm.query.order_by(model.Alarm.time).all()
-    configure_led_screen(state, alarms, led_screen)
-    reschedule_alarms(alarms)
-    comm.set_state(app, state)
-
-
+    while True:
+        msg = comm.receive_message(app, timeout=1)
+        if isinstance(msg, comm.StopMessage):
+            break
+        elif isinstance(msg, comm.SetLightStateMessage):
+            state.light_on = msg.on
+        elif isinstance(msg, comm.ReloadAlarmsMessage):
+            model.db.session.rollback()
+            alarms = model.Alarm.query.order_by(model.Alarm.time).all()
+        configure_led_screen(state, alarms, led_screen, sunrise_alarm)
+        reschedule_alarms(alarms)
+        comm.set_state(app, state)
