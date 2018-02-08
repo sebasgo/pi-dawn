@@ -38,3 +38,6 @@ venv.bak/
 # PyCharm project files
 /.idea
 
+# Flask instance directory
+/instance
+

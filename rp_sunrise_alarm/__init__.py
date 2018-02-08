@@ -23,7 +23,8 @@ def create_app():
                    static_folder=None,
                    template_folder=os.path.join(ROOT_PATH, 'frontend'))
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}/alarms.db'.format(app.instance_path)
     app.config['REDIS_QUEUE_KEY'] = 'rp_sunrise_alarm_alarm_queue'
     app.config['REDIS_STATE_KEY'] = 'rp_sunrise_alarm_state'
     app.config['ALARM_PRE_DURATION'] = 60 * 30
@@ -31,7 +32,6 @@ def create_app():
 
     model.db.init_app(app)
     model.db.app = app
-    model.db.create_all()
 
     return app
 
@@ -114,3 +114,9 @@ def catch_all(path):
         return requests.get('http://localhost:8080/{}'.format(path)).text
     return flask.render_template("index.html")
 
+
+@app.cli.command()
+def initdb():
+    if not os.path.exists(app.instance_path):
+        os.mkdir(app.instance_path)
+    model.db.create_all()
