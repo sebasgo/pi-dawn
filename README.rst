@@ -1,7 +1,7 @@
 Raspberry Pi Sunrise Alarm
 ==========================
 
-Use a Raspberry Pi connected to WS2801-based RGP LED strip to
+Use a Raspberry Pi connected to WS2801-based RGB LED strip to
 wake you up in the morning.
 
 Development
@@ -56,7 +56,7 @@ Running
 
 The application consists of three distinct components which
 all have to be running at the same time in order to function
-properly. Also, you need a running Redis server.
+properly. Also, you need to start a Redis server.
 
 1.  Redis::
 
@@ -72,8 +72,7 @@ properly. Also, you need a running Redis server.
 
     This will serve the frontend application at
     http://localhost:8080/ . The application won't work
-    properly though because it won't be able access the
-    backend API.
+    properly though because it can't access the backend API.
 
 3.  Backend Flask application::
 
