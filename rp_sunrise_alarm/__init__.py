@@ -111,7 +111,8 @@ def api_four_oh_four(path):
 @app.route('/<path:path>')
 def catch_all(path):
     if app.debug:
-        return requests.get('http://localhost:8080/{}'.format(path)).text
+        rq = requests.get('http://localhost:8080/{}'.format(path))
+        return flask.Response(rq.content, mimetype=rq.headers['Content-Type'])
     return flask.render_template("index.html")
 
 

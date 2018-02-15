@@ -1,0 +1,58 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("materialicons-72f23bfc9fd8dc16d72119a9e402e18b721f851d.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: local("Roboto Light"), 
+    local("Roboto-Light"), 
+    url("roboto-ff5673d89e6c2893d24c87bc9786c632290e150e.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto"), 
+    local("Roboto-Regular"), 
+    url("roboto-934014cc9bbe5883542be756b3146c05844b254f.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: local("Roboto Medium"), 
+    local("Roboto-Medium"), 
+    url("roboto-f549f1fe8a0b86ef3fbdcb8d508440aff84c385c.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local("Roboto Bold"), 
+    local("Roboto-Bold"), 
+    url("roboto-b2198c3fc1c72646d372f63e135e70ba2c9fed8e.woff") format("woff");
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
+}
