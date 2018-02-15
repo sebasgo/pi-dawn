@@ -15,7 +15,7 @@ class VueFlask(flask.Flask):
         if self.debug:
             return None
         else:
-            return os.path.join(ROOT_PATH, 'static')
+            return os.path.join(ROOT_PATH, 'frontend', 'static')
 
 
 def create_app():
