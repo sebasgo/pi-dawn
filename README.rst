@@ -76,14 +76,14 @@ properly. Also, you need to start a Redis server.
 
 3.  Backend Flask application::
 
-        FLASK_APP=rp_sunse_alarm FLASK_DEBUG=1 flask run
+        FLASK_APP=rp_sunrise_alarm FLASK_DEBUG=1 flask run
 
     In debug mode the Flask application will act as an
     proxy for the frontend application, so you can test
     changes to the frontend application without the need
     build it every time.
 
-    You access the web frontend at: http://127.0.0.1:5000/
+    You can access the web frontend at: http://127.0.0.1:5000/
 
 4.  Execute the daemon::
 
