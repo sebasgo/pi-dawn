@@ -87,7 +87,7 @@ properly. Also, you need to start a Redis server.
 
 4.  Execute the daemon::
 
-        DEBUG=1 rp-sunrise-alarm-daemom
+        DEBUG=1 rp-sunrise-alarm-daemon
 
     The daemon controls the LED stripe and makes sure it
     lights up at the programmed alarms.

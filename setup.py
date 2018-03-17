@@ -37,7 +37,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'rp-sunrise-alarm-daemom=rp_sunrise_alarm.daemon:main',
+            'rp-sunrise-alarm-daemon=rp_sunrise_alarm.daemon:main',
         ],
     },
     cmdclass={
