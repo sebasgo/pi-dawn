@@ -1,6 +1,7 @@
 .DS_Store
 node_modules/
-dist/
+static/build.js
+static/build.js.map
 npm-debug.log
 yarn-error.log
 
