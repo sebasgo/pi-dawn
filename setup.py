@@ -30,7 +30,6 @@ setup(
         'attrs',
         'Flask',
         'Flask-SQLAlchemy',
-        'pygame',
         'redis',
         'requests',
     ],
