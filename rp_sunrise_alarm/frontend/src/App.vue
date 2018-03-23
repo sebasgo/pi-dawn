@@ -1,6 +1,7 @@
 <template>
   <v-app dark>
     <v-toolbar fixed app color="indigo darken-4">
+      <img id="logo" src="/static/public/icon-96x96.png">
       <v-toolbar-title>Raspberry Pi Sunrise Alarm</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon v-on:click="reload()">
@@ -51,6 +52,12 @@
 </script>
 
 <style>
+  #logo {
+    border: 1px solid #000;
+    border-radius: 3px;
+    width: 32px;
+    height: 32px;
+  }
   .footer {
     height: 56px;
   }
