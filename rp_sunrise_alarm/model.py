@@ -39,8 +39,6 @@ class Alarm(db.Model):
         hour, minute = int(hour), int(minute)
         if self.repeat:
             wd = today.weekday()
-            print(self.repeat_days)
-            print([2**(d%7) for d in range(today.weekday(), today.weekday()+7)])
             day_offsets = [d - wd for d in range(wd, wd+8) if (2**(d%7)) & self.repeat_days]
         else:
             day_offsets = [0, 1]
@@ -49,7 +47,6 @@ class Alarm(db.Model):
             next_alarm = datetime.datetime(today.year, today.month, today.day+day_offset, hour, minute)
             if next_alarm > now:
                 self.next_alarm = next_alarm
-                print(self.next_alarm)
                 return
         self.next_alarm = None
 
