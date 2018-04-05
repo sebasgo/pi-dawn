@@ -9,7 +9,7 @@ class LedScreen:
     width = attr.ib(type=int)
     height = attr.ib(type=int)
 
-    def __init__(self, width, height):
+    def __init__(self, width, height, gamma_r=1, gamma_g=1, gamma_b=1):
         self.width = width
         self.height = height
 

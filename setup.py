@@ -44,6 +44,7 @@ setup(
     entry_points={
         'console_scripts': [
             'rp-sunrise-alarm-daemon=rp_sunrise_alarm.daemon:main',
+            'rp-sunrise-alarm-gamma-test=rp_sunrise_alarm.gamma_test:main',
         ],
     },
     cmdclass={

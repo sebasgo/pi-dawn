@@ -60,7 +60,8 @@ def main():
     signal.signal(signal.SIGINT, shutdown)
     signal.signal(signal.SIGTERM, shutdown)
     state = comm.State()
-    led_screen = hw.LedScreen(width=10, height=32)
+    led_screen = hw.LedScreen(width=10, height=32, gamma_r=app.config['GAMMA_R'], gamma_b=app.config['GAMMA_B'],
+                              gamma_g=app.config['GAMMA_G'])
     sunrise_alarm = graphics.Sunrise(led_screen)
     alarms = model.Alarm.query.order_by(model.Alarm.time).all()
 
