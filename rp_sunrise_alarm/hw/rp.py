@@ -30,5 +30,5 @@ class LedScreen:
                     offset = self.height - y - 1 + x * self.height
                 else:
                     offset = y + x * self.height
-                self.pixels.set_pixel_rgb(offset, r, g, b)
+                self.pixels.set_pixel_rgb(offset, r, b, g)
         self.pixels.show()
