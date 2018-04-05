@@ -1,7 +1,5 @@
 import attr
 
-from rp_sunrise_alarm import hw
-
 @attr.s
 class GradientStop:
     pos = attr.ib(type=float)
@@ -101,7 +99,7 @@ class Sunrise:
         ]),
     ]
 
-    def __init__(self, led_screen: hw.LedScreen):
+    def __init__(self, led_screen):
         self.key_frames = []
 
         for step in self.steps:
