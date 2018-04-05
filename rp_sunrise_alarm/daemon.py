@@ -12,6 +12,12 @@ def shutdown(signum, frame):
     comm.send_message(app, comm.StopMessage())
 
 
+def clear_screen(led_screen):
+    surface = led_screen.make_surface()
+    surface.fill(0, 0, 0)
+    led_screen.draw_surface(surface)
+
+
 def configure_led_screen(state, alarms, led_screen, sunrise_alarm):
     surface = led_screen.make_surface()
 
@@ -68,6 +74,7 @@ def main():
     while True:
         msg = comm.receive_message(app, timeout=1)
         if isinstance(msg, comm.StopMessage):
+            clear_screen(led_screen)
             break
         elif isinstance(msg, comm.SetLightStateMessage):
             state.light_on = msg.on
