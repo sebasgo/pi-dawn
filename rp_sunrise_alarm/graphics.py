@@ -4,10 +4,10 @@ from rp_sunrise_alarm import hw
 
 @attr.s
 class GradientStop:
-    pos: float = attr.ib()
-    r: int = attr.ib()
-    g: int = attr.ib()
-    b: int = attr.ib()
+    pos = attr.ib(type=float)
+    r = attr.ib(type=int)
+    g = attr.ib(type=int)
+    b = attr.ib(type=int)
 
 
 @attr.s(init=False)
