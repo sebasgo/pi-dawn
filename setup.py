@@ -27,6 +27,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        'adafruit-ws2801',
         'attrs',
         'Flask',
         'Flask-SQLAlchemy',
@@ -55,6 +56,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ]
 )
