@@ -29,6 +29,7 @@ setup(
     install_requires=[
         'adafruit-ws2801',
         'attrs',
+        'click',
         'Flask',
         'Flask-SQLAlchemy',
         'redis',

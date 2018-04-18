@@ -1,13 +1,16 @@
+import errno
+import subprocess
 import os
 
+import click
 import flask
 import requests
 
 from rp_sunrise_alarm import model
 from rp_sunrise_alarm import comm
+from rp_sunrise_alarm import templates
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
-
 
 class VueFlask(flask.Flask):
     @property
@@ -124,3 +127,28 @@ def initdb():
     if not os.path.exists(app.instance_path):
         os.mkdir(app.instance_path)
     model.db.create_all()
+
+@app.cli.command()
+@click.option('--sites-available-directory', default='/etc/nginx/sites-available')
+@click.option('--sites-enabled-directory', default='/etc/nginx/sites-enabled')
+@click.option('--server-name', default='_')
+def setup_nginx(sites_available_directory, sites_enabled_directory, server_name):
+    site = 'rpsa.conf'
+    conf_file_path = os.path.abspath(os.path.join(sites_available_directory, site))
+    link_file_path = os.path.join(sites_enabled_directory, site)
+    default_site_path = os.path.join(sites_enabled_directory, 'default')
+    with open(conf_file_path, mode='w') as conf_file:
+        conf_file.write(templates.NGINX_CONF.format(server_name=server_name))
+    try:
+        os.symlink(conf_file_path, link_file_path)
+    except IOError as e:
+        if e.errno != errno.EEXIST:
+            pass
+    try:
+        os.unlink(default_site_path)
+    except IOError as e:
+        if e.errno != errno.ENOENT:
+            pass
+    subprocess.check_call(['nginx', '-t'])
+    subprocess.check_call(['nginx', '-s', 'reload'])
+
