@@ -4,6 +4,90 @@ Raspberry Pi Sunrise Alarm
 Use a Raspberry Pi connected to WS2801-based RGB LED strip to
 wake you up in the morning.
 
+Setup
+-----
+
+Hardware
+~~~~~~~~
+
+...
+
+Software
+~~~~~~~~
+
+1.  Download Raspbian, flash it to a SD card and configure the system
+    to your liking (basic network configuration, SSH access, locale etc.)
+
+2.  Configure the correct time zone::
+
+        sudo raspi-config
+
+    Select *Localisation Options* → *Change Timezone*. Pick your
+    timezone from the list.
+
+3.  Enable the SPI interface::
+
+        sudo raspi-config
+
+    Select *Interfacing Options* → *P4 SPI*. Answer *Yes*.
+
+5.  Allow the the user ``pi`` to access the SPI interface::
+
+        sudo gpasswd -a pi spi
+
+    In order to become effective, you have to log in again.
+
+6.  Install Python 3 with the ``venv`` module , if not yet available::
+
+        sudo apt-get install python3 python3-venv
+
+7.  Install the Redis::
+
+    sudo aptitude install redis-server
+
+8.  Create an virutal Python environment for the Raspberry Pi Sunrise
+    Alarm::
+
+        cd ~
+        python3 -m venv rp-sunrise-alarm
+
+9.  Install Raspberry Pi Sunrise Alarm::
+
+        ./rp-sunrise-alarm/bin/pip install ...
+
+10. Create the database::
+
+        mkdir rp-sunrise-alarm/var
+        FLASK_APP=rp_sunrise_alarm ./rp-sunrise-alarm/bin/flask initdb
+
+11. Install NGINX::
+
+        sudo apt-get install nginx
+
+12. Setup NGINX::
+
+        sudo -s
+        FLASK_APP=rp_sunrise_alarm ./rp-sunrise-alarm/bin/flask setup_nginx
+
+    The command will add a new site to act as a proxy for the
+    Flask web application, disable the conflicting default site,
+    validate the NGINX configuration for good measure and reload
+    NGINX to make the changes effective.
+
+13. Setup services:
+
+        sudo -s
+        FLASK_APP=rp_sunrise_alarm ./rp-sunrise-alarm/bin/flask install_services
+
+    This command will install Systemd service units for the web
+    frontend and the alarm daemon. After this, it starts the
+    services and enables them so they are automatically started
+    at boot.
+
+That's it. You can access the web interface on port 80 of your
+Raspberry Pi. Use it to configure your alarms or as a light
+switch.
+
 Development
 -----------
 
@@ -13,7 +97,7 @@ Prerequisites
 Make sure you have the following software packages available
 on your system:
 
- * Python (≥ 3.6) with ``virtualenv``
+ * Python (≥ 3.5) with ``virtualenv``
  * Node.js (≥ 6.x)
  * Redis
 
