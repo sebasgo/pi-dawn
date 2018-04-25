@@ -1,6 +1,7 @@
 import errno
 import subprocess
 import os
+import sys
 
 import click
 import flask
@@ -152,3 +153,22 @@ def setup_nginx(sites_available_directory, sites_enabled_directory, server_name)
     subprocess.check_call(['nginx', '-t'])
     subprocess.check_call(['nginx', '-s', 'reload'])
 
+
+@app.cli.command()
+@click.option('--target-directory', default='/etc/systemd/system')
+@click.option('--effective-user', default='pi')
+def install_services(target_directory, effective_user):
+    bin_path = os.path.dirname(os.path.abspath(sys.argv[0]))
+    services = {
+        'rp-sunrise-web': templates.WEB_SERVICE,
+        'rp-sunrise': templates.MAIN_SERVICE,
+    }
+    for name, template in services.items():
+        unit_file_path = os.path.abspath(os.path.join(target_directory, '{}.service'.format(name)))
+        with open(unit_file_path, mode='w') as unit_file:
+            unit_file.write(template.format(bin_path=bin_path, user=effective_user))
+
+    subprocess.check_call(['systemctl', 'daemon-reload'])
+    for name in services:
+        subprocess.check_call(['systemctl', 'start', name])
+        subprocess.check_call(['systemctl', 'enable', name])
