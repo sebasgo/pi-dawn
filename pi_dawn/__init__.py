@@ -7,9 +7,9 @@ import click
 import flask
 import requests
 
-from rp_sunrise_alarm import model
-from rp_sunrise_alarm import comm
-from rp_sunrise_alarm import templates
+from pi_dawn import model
+from pi_dawn import comm
+from pi_dawn import templates
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
@@ -29,8 +29,8 @@ def create_app():
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}/alarms.db'.format(app.instance_path)
-    app.config['REDIS_QUEUE_KEY'] = 'rp_sunrise_alarm_alarm_queue'
-    app.config['REDIS_STATE_KEY'] = 'rp_sunrise_alarm_state'
+    app.config['REDIS_QUEUE_KEY'] = 'pi_dawn_alarm_queue'
+    app.config['REDIS_STATE_KEY'] = 'pi_dawn_state'
     app.config['ALARM_PRE_DURATION'] = 60 * 30
     app.config['ALARM_POST_DURATION'] = 60 * 15
     app.config['GAMMA_R'] = 0.45
@@ -134,7 +134,7 @@ def initdb():
 @click.option('--sites-enabled-directory', default='/etc/nginx/sites-enabled')
 @click.option('--server-name', default='_')
 def setup_nginx(sites_available_directory, sites_enabled_directory, server_name):
-    site = 'rpsa.conf'
+    site = 'pi-dawn.conf'
     conf_file_path = os.path.abspath(os.path.join(sites_available_directory, site))
     link_file_path = os.path.join(sites_enabled_directory, site)
     default_site_path = os.path.join(sites_enabled_directory, 'default')
@@ -160,8 +160,8 @@ def setup_nginx(sites_available_directory, sites_enabled_directory, server_name)
 def install_services(target_directory, effective_user):
     bin_path = os.path.dirname(os.path.abspath(sys.argv[0]))
     services = {
-        'rp-sunrise-web': templates.WEB_SERVICE,
-        'rp-sunrise': templates.MAIN_SERVICE,
+        'pi-dawn-web': templates.WEB_SERVICE,
+        'pi-dawn': templates.MAIN_SERVICE,
     }
     for name, template in services.items():
         unit_file_path = os.path.abspath(os.path.join(target_directory, '{}.service'.format(name)))

@@ -1,11 +1,11 @@
 import signal
 import datetime
 
-from rp_sunrise_alarm import app
-from rp_sunrise_alarm import comm
-from rp_sunrise_alarm import graphics
-from rp_sunrise_alarm import model
-from rp_sunrise_alarm import hw
+from pi_dawn import app
+from pi_dawn import comm
+from pi_dawn import graphics
+from pi_dawn import model
+from pi_dawn import hw
 
 
 def shutdown(signum, frame):

@@ -18,10 +18,10 @@ NGINX_CONF = """server {{
 """
 
 WEB_SERVICE = """[Unit]
-Description=Raspberry Pi Sunrise Alarm Web Service
+Description=Pi Dawn Web Service
 
 [Service]
-Environment=FLASK_APP=rp_sunrise_alarm
+Environment=FLASK_APP=pi_dawn
 ExecStart={bin_path}/flask run
 User={user}
 
@@ -30,10 +30,10 @@ WantedBy=multi-user.target
 """
 
 MAIN_SERVICE = """[Unit]
-Description=Raspberry Pi Sunrise Alarm Service
+Description=Pi Dawn Service
 
 [Service]
-ExecStart={bin_path}/rp-sunrise-alarm-daemon
+ExecStart={bin_path}/pi-dawn-daemon
 User={user}
 Restart=on-failure
 

@@ -1,7 +1,7 @@
 import attr
 import pygame
 
-from rp_sunrise_alarm import graphics
+from pi_dawn import graphics
 
 
 @attr.s(init=False)

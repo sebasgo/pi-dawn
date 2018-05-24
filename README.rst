@@ -1,5 +1,5 @@
-Raspberry Pi Sunrise Alarm
-==========================
+Pi Dawn
+=======
 
 Use a Raspberry Pi connected to WS2801-based RGB LED strip to
 wake you up in the morning.
@@ -45,20 +45,19 @@ Software
 
     sudo aptitude install redis-server
 
-8.  Create an virutal Python environment for the Raspberry Pi Sunrise
-    Alarm::
+8.  Create an virtual Python environment for the Pi Dawn::
 
         cd ~
-        python3 -m venv rp-sunrise-alarm
+        python3 -m venv pi-dawn
 
-9.  Install Raspberry Pi Sunrise Alarm::
+9.  Install Pi Dawn::
 
-        ./rp-sunrise-alarm/bin/pip install ...
+        ./pi-dawn/bin/pip install pi_dawn
 
 10. Create the database::
 
-        mkdir rp-sunrise-alarm/var
-        FLASK_APP=rp_sunrise_alarm ./rp-sunrise-alarm/bin/flask initdb
+        mkdir pi-dawn/var
+        FLASK_APP=pi_dawn ./pi-dawn/bin/flask initdb
 
 11. Install NGINX::
 
@@ -67,7 +66,7 @@ Software
 12. Setup NGINX::
 
         sudo -s
-        FLASK_APP=rp_sunrise_alarm ./rp-sunrise-alarm/bin/flask setup_nginx
+        FLASK_APP=pi_dawn ./pi-dawn/bin/flask setup_nginx
 
     The command will add a new site to act as a proxy for the
     Flask web application, disable the conflicting default site,
@@ -77,7 +76,7 @@ Software
 13. Setup services:
 
         sudo -s
-        FLASK_APP=rp_sunrise_alarm ./rp-sunrise-alarm/bin/flask install_services
+        FLASK_APP=pi_dawn ./pi-dawn/bin/flask install_services
 
     This command will install Systemd service units for the web
     frontend and the alarm daemon. After this, it starts the
@@ -106,7 +105,7 @@ Get the source code
 
 Clone this repository::
 
-    git clone git@github.com:sebasgo/rp-sunrise-alarm.git
+    git clone git@github.com:sebasgo/pi-dawn.git
 
 Installation
 ~~~~~~~~~~~~
@@ -128,11 +127,11 @@ of the repository:
 
 4.  Create the database::
 
-        FLASK_APP=rp_sunrise_alarm flask initdb
+        FLASK_APP=pi_dawn flask initdb
 
 5.  Install the dependencies for the frontend::
 
-        cd
+        cd pi_dawn/frontend
         npm install
 
 Running
@@ -151,7 +150,7 @@ properly. Also, you need to start a Redis server.
 
 2.  Frontend Vue.js application::
 
-        cd rp_sunrise_alarm/frontend
+        cd pi_dawn/frontend
         npm run dev
 
     This will serve the frontend application at
@@ -160,7 +159,7 @@ properly. Also, you need to start a Redis server.
 
 3.  Backend Flask application::
 
-        FLASK_APP=rp_sunrise_alarm FLASK_DEBUG=1 flask run
+        FLASK_APP=pi_dawn FLASK_DEBUG=1 flask run
 
     In debug mode the Flask application will act as an
     proxy for the frontend application, so you can test
@@ -171,7 +170,7 @@ properly. Also, you need to start a Redis server.
 
 4.  Execute the daemon::
 
-        DEBUG=1 rp-sunrise-alarm-daemon
+        DEBUG=1 pi-dawn-daemon
 
     The daemon controls the LED stripe and makes sure it
     lights up at the programmed alarms.

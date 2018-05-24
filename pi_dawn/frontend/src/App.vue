@@ -2,7 +2,7 @@
   <v-app dark>
     <v-toolbar fixed app color="indigo darken-4">
       <img id="logo" src="/static/public/icon-96x96.png">
-      <v-toolbar-title>Raspberry Pi Sunrise Alarm</v-toolbar-title>
+      <v-toolbar-title>Pi Dawn</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon v-on:click="reload()">
         <v-icon>refresh</v-icon>

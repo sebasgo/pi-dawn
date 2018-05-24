@@ -1,6 +1,6 @@
 {
-  "name": "rp-sunrise-clock",
-  "description": "Raspberry Pi Sunrise Alarm",
+  "name": "pi-dawn",
+  "description": "Pi Dawn",
   "version": "1.0.0",
   "author": "Sebastian Gottfried <sebastian.gottfried@posteo.de>",
   "private": true,

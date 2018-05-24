@@ -2,7 +2,7 @@ import argparse
 import sys
 import time
 
-from rp_sunrise_alarm import hw
+from pi_dawn import hw
 
 
 def main():

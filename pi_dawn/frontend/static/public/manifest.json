@@ -1,6 +1,6 @@
 {
-  "name": "Raspberry Pi Sunrise Alarm",
-  "short_name": "RP Pi Sunrise Alarm",
+  "name": "Pi Dawn",
+  "short_name": "Pi Dawn",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1A237E",

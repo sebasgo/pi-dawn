@@ -3,7 +3,7 @@ import attr
 import Adafruit_WS2801
 import Adafruit_GPIO.SPI
 
-from rp_sunrise_alarm import graphics
+from pi_dawn import graphics
 
 SPI_PORT = 0
 SPI_DEVICE = 0

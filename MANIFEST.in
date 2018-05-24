@@ -1,2 +1,2 @@
-recursive-include rp_sunrise_alarm/frontend *
-prune rp_sunrise_alarm/frontend/node_modules
+recursive-include pi_dawn/frontend *
+prune pi_dawn/frontend/node_modules
