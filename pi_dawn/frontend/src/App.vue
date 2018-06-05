@@ -11,7 +11,7 @@
     <v-content>
       <router-view/>
     </v-content>
-    <v-footer :fixed="fixed" app>
+    <v-footer :fixed="fixed" :height="56" app>
       <v-bottom-nav :value="true" color="indigo darken-2">
         <v-btn flat to='/alarms' router>
           <span>Alarms</span>
@@ -57,9 +57,6 @@
     border-radius: 3px;
     width: 32px;
     height: 32px;
-  }
-  .footer {
-    height: 56px;
   }
   .footer > *:first-child {
     margin: 0;

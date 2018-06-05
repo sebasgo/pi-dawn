@@ -38,8 +38,12 @@
     </v-layout>
 
     <v-layout row justify-center>
-      <v-dialog v-model="timePickerVisible" width="290px">
-        <v-time-picker v-model="timePickerTime" actions format="24hr" :autosave="true" />
+      <v-dialog ref="timePickerDialog" v-model="timePickerVisible" width="290px">
+        <v-time-picker v-model="timePickerTime" actions format="24hr" >
+          <v-spacer/>
+            <v-btn flat color="primary" v-on:click="cancelTimePicker()">Cancel</v-btn>
+            <v-btn flat color="primary" v-on:click="saveTimePickerAlarm()">OK</v-btn>
+        </v-time-picker>
       </v-dialog>
     </v-layout>
 
@@ -72,22 +76,6 @@ export default {
   computed: mapGetters({
     alarms: 'alarms'
   }),
-  watch: {
-    timePickerVisible (visible) {
-      if (!visible) {
-        var data = {}
-        Object.assign(data, this.timePickerAlarm)
-        data.time = this.timePickerTime
-        data.enabled = true
-        if (this.timePickerAlarm.id) {
-          this.$store.dispatch('updateAlarm', {id: this.timePickerAlarm.id, data})
-        }
-        else {
-          this.$store.dispatch('addAlarm', {data})
-        }
-      }
-    },
-  },
   methods: {
     toggleAlarmEnabled (alarm) {
       this.$store.dispatch ('updateAlarm', {id: alarm.id, data: {enabled: !alarm.enabled}})
@@ -110,6 +98,22 @@ export default {
     },
     deleteAlarm (alarm) {
       this.$store.dispatch ('deleteAlarm', {id: alarm.id})
+    },
+    cancelTimePicker () {
+      this.timePickerVisible = false;
+    },
+    saveTimePickerAlarm () {
+      this.timePickerVisible = false
+      var data = {}
+      Object.assign(data, this.timePickerAlarm)
+      data.time = this.timePickerTime
+      data.enabled = true
+      if (this.timePickerAlarm.id) {
+        this.$store.dispatch('updateAlarm', {id: this.timePickerAlarm.id, data})
+      }
+      else {
+        this.$store.dispatch('addAlarm', {data})
+      }
     },
     repeatDays (alarm) {
       var result = []
@@ -136,7 +140,7 @@ export default {
     bottom: 70px;
   }
 
-  .picker--time__title {
+  .time-picker-title__time {
     margin: auto !important;
   }
 
