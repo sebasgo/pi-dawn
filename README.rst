@@ -15,55 +15,50 @@ Hardware
 Software
 ~~~~~~~~
 
+These instructions install Pi Dawn for the default Raspbian user ``pi``. Run all command as this user.
+
 1.  Download Raspbian, flash it to a SD card and configure the system
-    to your liking (basic network configuration, SSH access, locale etc.)
+    to your liking (network configuration, SSH access, locale etc.)
 
-2.  Configure the correct time zone::
+2.  Setup Raspbian for Pi Dawn
 
-        sudo raspi-config
-
-    Select *Localisation Options* → *Change Timezone*. Pick your
-    timezone from the list.
-
-3.  Enable the SPI interface::
+    Run::
 
         sudo raspi-config
 
-    Select *Interfacing Options* → *P4 SPI*. Answer *Yes*.
+    Then select *Localisation Options* → *Change Timezone*. Pick the
+    timezone you are living in from the list.
 
-5.  Allow the the user ``pi`` to access the SPI interface::
+    Then select *Interfacing Options* → *P4 SPI*. Answer *Yes* to
+    enable the SPI interface.
+
+3.  Allow the user ``pi`` to access the SPI interface::
 
         sudo gpasswd -a pi spi
 
     In order to become effective, you have to log in again.
 
-6.  Install Python 3 with the ``venv`` module , if not yet available::
+4.  Install required Raspbian packages::
 
-        sudo apt-get install python3 python3-venv
+        sudo apt-get install python3 python3-venv redis-server nginx
 
-7.  Install the Redis::
+    This installs Python 3 with the ``venv`` module, Redis and Nginx.
 
-    sudo aptitude install redis-server
-
-8.  Create an virtual Python environment for the Pi Dawn::
+5.  Create an virtual Python environment for the Pi Dawn::
 
         cd ~
         python3 -m venv pi-dawn
 
-9.  Install Pi Dawn::
+6.  Install Pi Dawn::
 
         ./pi-dawn/bin/pip install pi_dawn
 
-10. Create the database::
+7.  Create the database::
 
         mkdir pi-dawn/var
         FLASK_APP=pi_dawn ./pi-dawn/bin/flask initdb
 
-11. Install NGINX::
-
-        sudo apt-get install nginx
-
-12. Setup NGINX::
+8.  Setup NGINX::
 
         sudo -s
         FLASK_APP=pi_dawn ./pi-dawn/bin/flask setup_nginx
@@ -73,7 +68,7 @@ Software
     validate the NGINX configuration for good measure and reload
     NGINX to make the changes effective.
 
-13. Setup services:
+9.  Setup services:
 
         sudo -s
         FLASK_APP=pi_dawn ./pi-dawn/bin/flask install_services
@@ -84,8 +79,7 @@ Software
     at boot.
 
 That's it. You can access the web interface on port 80 of your
-Raspberry Pi. Use it to configure your alarms or as a light
-switch.
+Raspberry Pi. Use it to configure alarms or as light switch.
 
 Development
 -----------
@@ -96,7 +90,7 @@ Prerequisites
 Make sure you have the following software packages available
 on your system:
 
- * Python (≥ 3.5) with ``virtualenv``
+ * Python (≥ 3.5)
  * Node.js (≥ 6.x)
  * Redis
 
@@ -115,7 +109,7 @@ of the repository:
 
 1.  Setup a new Python virtual environment::
 
-        virtualenv --python python3 venv
+        python3 -m venv venv
 
 2.  Activate the environment::
 
