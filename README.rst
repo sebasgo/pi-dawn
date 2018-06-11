@@ -40,7 +40,7 @@ These instructions install Pi Dawn for the default Raspbian user ``pi``. Run all
 
 4.  Install required Raspbian packages::
 
-        sudo apt-get install python3 python3-venv redis-server nginx
+        sudo apt-get -y install python3 python3-venv redis-server nginx
 
     This installs Python 3 with the ``venv`` module, Redis and Nginx.
 
@@ -58,23 +58,20 @@ These instructions install Pi Dawn for the default Raspbian user ``pi``. Run all
         mkdir pi-dawn/var
         FLASK_APP=pi_dawn ./pi-dawn/bin/flask initdb
 
-8.  Setup NGINX::
+8.  Setup services::
 
         sudo -s
         FLASK_APP=pi_dawn ./pi-dawn/bin/flask setup_nginx
+        FLASK_APP=pi_dawn ./pi-dawn/bin/flask install_services
+        exit
 
-    The command will add a new site to act as a proxy for the
+    The first command will add a new site to act as a proxy for the
     Flask web application, disable the conflicting default site,
     validate the NGINX configuration for good measure and reload
     NGINX to make the changes effective.
 
-9.  Setup services:
-
-        sudo -s
-        FLASK_APP=pi_dawn ./pi-dawn/bin/flask install_services
-
-    This command will install Systemd service units for the web
-    frontend and the alarm daemon. After this, it starts the
+    This second command will install Systemd service units for the
+    web frontend and the alarm daemon. After this, it starts the
     services and enables them so they are automatically started
     at boot.
 
