@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style>
-.power-button {
+.v-btn.power-button {
     height: auto;
 }
 
