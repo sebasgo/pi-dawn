@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import moment from 'moment'
 
 export default {
@@ -78,7 +78,7 @@ export default {
   }),
   methods: {
     toggleAlarmEnabled (alarm) {
-      this.$store.dispatch ('updateAlarm', {id: alarm.id, data: {enabled: !alarm.enabled}})
+      this.$store.dispatch ('updateAlarm', {id: alarm.id, data: {enabled: alarm.enabled}})
     },
     toggleAlarmRepeat (alarm) {
       this.$store.dispatch ('updateAlarm', {id: alarm.id, data: {repeat: !alarm.repeat}})
@@ -140,7 +140,7 @@ export default {
     bottom: 70px;
   }
 
-  .time-picker-title__time {
+  .v-time-picker-title__time {
     margin: auto !important;
   }
 

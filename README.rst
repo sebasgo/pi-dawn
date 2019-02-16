@@ -88,7 +88,7 @@ Make sure you have the following software packages available
 on your system:
 
  * Python (≥ 3.5)
- * Node.js (≥ 6.x)
+ * Node.js (≥ 10.x)
  * Redis
 
 Get the source code
@@ -139,25 +139,18 @@ properly. Also, you need to start a Redis server.
     This command can be executed from any working directory.
 
 
-2.  Frontend Vue.js application::
-
-        cd pi_dawn/frontend
-        npm run dev
-
-    This will serve the frontend application at
-    http://localhost:8080/ . The application won't work
-    properly though because it can't access the backend API.
-
-3.  Backend Flask application::
+2.  Backend Flask application::
 
         FLASK_APP=pi_dawn FLASK_DEBUG=1 flask run
 
-    In debug mode the Flask application will act as an
-    proxy for the frontend application, so you can test
-    changes to the frontend application without the need
-    build it every time.
+    While developing the Flask application only serves the backend API.
 
-    You can access the web frontend at: http://127.0.0.1:5000/
+3.  Frontend Vue.js application::
+
+        cd pi_dawn/frontend
+        npm run serve
+
+    You can access the web frontend at: http://127.0.0.1:8081/
 
 4.  Execute the daemon::
 

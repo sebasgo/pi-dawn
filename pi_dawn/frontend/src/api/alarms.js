@@ -21,7 +21,7 @@ export default {
     })
   },
   deleteAlarm(id, cb) {
-    $axios.delete('alarm/' + id).then((response) => {
+    $axios.delete('alarm/' + id).then(() => {
       cb()
     })
   }

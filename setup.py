@@ -33,7 +33,6 @@ setup(
         'Flask',
         'Flask-SQLAlchemy',
         'redis',
-        'requests',
     ],
     extras_require={
         'dev': [

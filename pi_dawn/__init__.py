@@ -5,7 +5,6 @@ import sys
 
 import click
 import flask
-import requests
 
 from pi_dawn import model
 from pi_dawn import comm
@@ -13,19 +12,10 @@ from pi_dawn import templates
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
-class VueFlask(flask.Flask):
-    @property
-    def static_folder(self):
-        if self.debug:
-            return None
-        else:
-            return os.path.join(ROOT_PATH, 'frontend', 'static')
-
-
 def create_app():
-    app = VueFlask(__name__,
-                   static_folder=None,
-                   template_folder=os.path.join(ROOT_PATH, 'frontend'))
+    app = flask.Flask(__name__,
+                      static_folder=os.path.join(ROOT_PATH, 'frontend', 'dist', 'static'),
+                      template_folder=os.path.join(ROOT_PATH, 'frontend', 'dist'))
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}/alarms.db'.format(app.instance_path)
@@ -41,6 +31,7 @@ def create_app():
     model.db.app = app
 
     return app
+
 
 app = create_app()
 
@@ -93,6 +84,7 @@ def delete_alarm(id):
     comm.send_message(app, comm.ReloadAlarmsMessage())
     return '', 204
 
+
 @app.route('/api/1.0/light', methods = ['GET'])
 def get_light():
     state = comm.get_state(app)
@@ -117,9 +109,6 @@ def api_four_oh_four(path):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    if app.debug:
-        rq = requests.get('http://localhost:8080/{}'.format(path))
-        return flask.Response(rq.content, mimetype=rq.headers['Content-Type'])
     return flask.render_template("index.html")
 
 

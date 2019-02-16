@@ -3,30 +3,39 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import {
-  Vuetify,
+import Vuetify, {
   VApp,
   VAvatar,
   VBottomNav,
   VBtn,
   VBtnToggle,
   VCard,
+  VCardActions,
+  VCardOptions,
   VCheckbox,
+  VContainer,
+  VContent,
   VDialog,
+  VFlex,
   VFooter,
   VGrid,
   VIcon,
+  VLayout,
+  VSpacer,
   VSwitch,
   VTimePicker,
   VToolbar,
+  VToolbarTitle,
   transitions
-} from 'vuetify'
+} from 'vuetify/lib'
 
 import {
   Ripple
-} from 'vuetify/es5/directives'
+} from 'vuetify/lib/directives'
 
 require('vuetify/src/stylus/app.styl')
+
+require('./assets/fonts.css')
 
 Vue.use(Vuetify, {
   components: {
@@ -36,14 +45,22 @@ Vue.use(Vuetify, {
     VBtn,
     VBtnToggle,
     VCard,
+    VCardActions,
+    VCardOptions,
     VCheckbox,
+    VContainer,
+    VContent,
     VDialog,
+    VFlex,
     VFooter,
     VGrid,
     VIcon,
+    VLayout,
+    VSpacer,
     VSwitch,
     VTimePicker,
     VToolbar,
+    VToolbarTitle,
     transitions
   },
   directives: {

@@ -43,3 +43,7 @@ venv.bak/
 
 # Redis DB files
 *.rdb
+
+# Backup and editor files
+*~
+*.swp
