@@ -26,7 +26,7 @@
             </v-layout>
             <v-layout row v-if="alarm.nextAlarm">
               <v-flex xs12>
-                Rings in {{ nextAlarmLabel(alarm.nextAlarm) }}
+                Rings {{ nextAlarmLabel(alarm.nextAlarm) }}
               </v-flex>
             </v-layout>
           </v-container>
