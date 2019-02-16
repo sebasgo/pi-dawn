@@ -9,12 +9,12 @@
                 <h3 class="display-1" v-on:click="setTime(alarm)">{{ alarm.time }}</h3>
               </v-flex>
               <v-flex>
-                <v-switch :input-value="alarm.enabled" @click="toggleAlarmEnabled(alarm)" color="primary"/>
+                <v-switch :input-value="alarm.enabled" @change="toggleAlarmEnabled(alarm)" color="primary"/>
               </v-flex>
             </v-layout>
             <v-layout row>
               <v-flex xs12>
-                <v-checkbox :input-value="alarm.repeat" @click="toggleAlarmRepeat(alarm)" label="Repeat" color="primary" hide-details/>
+                <v-checkbox :input-value="alarm.repeat" @change="toggleAlarmRepeat(alarm)" label="Repeat" color="primary" hide-details/>
               </v-flex>
             </v-layout>
             <v-layout v-if="alarm.repeat" row justify-space-between wrap>
@@ -78,7 +78,7 @@ export default {
   }),
   methods: {
     toggleAlarmEnabled (alarm) {
-      this.$store.dispatch ('updateAlarm', {id: alarm.id, data: {enabled: alarm.enabled}})
+      this.$store.dispatch ('updateAlarm', {id: alarm.id, data: {enabled: !alarm.enabled}})
     },
     toggleAlarmRepeat (alarm) {
       this.$store.dispatch ('updateAlarm', {id: alarm.id, data: {repeat: !alarm.repeat}})
