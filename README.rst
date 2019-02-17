@@ -40,11 +40,11 @@ These instructions install Pi Dawn for the default Raspbian user ``pi``. Run all
 
 4.  Install required Raspbian packages::
 
-        sudo apt-get -y install python3 python3-venv redis-server nginx
+        sudo apt -y install python3 python3-venv redis-server nginx
 
     This installs Python 3 with the ``venv`` module, Redis and Nginx.
 
-5.  Create an virtual Python environment for the Pi Dawn::
+5.  Create an virtual Python environment for Pi Dawn::
 
         cd ~
         python3 -m venv pi-dawn
@@ -72,11 +72,10 @@ These instructions install Pi Dawn for the default Raspbian user ``pi``. Run all
 
     This second command will install Systemd service units for the
     web frontend and the alarm daemon. After this, it starts the
-    services and enables them so they are automatically started
-    at boot.
+    services and configures them for automatic launch at boot.
 
 That's it. You can access the web interface on port 80 of your
-Raspberry Pi. Use it to configure alarms or as light switch.
+Raspberry Pi. Use it to configure alarms or as a light switch.
 
 Development
 -----------
