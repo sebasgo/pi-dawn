@@ -15,11 +15,19 @@ class BuildCommand(build_py):
         check_call(['npm', 'run', 'build'], cwd=cmd_dir)
         super().run()
 
+
+def long_description():
+    return '{}\n{}'.format(
+        open(os.path.join(base_dir, 'README.rst')).read(),
+        open(os.path.join(base_dir, 'CHANGES.rst')).read()
+    )
+
+
 setup(
     name='pi-dawn',
     version='1.0',
     description='Pi Dawn',
-    long_description=open(os.path.join(base_dir, 'README.rst')).read(),
+    long_description=long_description(),
     url='https://github.com/sebasgo/pi-dawn',
     author='Sebastian Gottfried',
     author_email='sebastian.gottfried@posteo.de',

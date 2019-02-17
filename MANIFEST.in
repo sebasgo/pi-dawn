@@ -1,2 +1,6 @@
 recursive-include pi_dawn/frontend *
+prune pi_dawn/frontend/dist
 prune pi_dawn/frontend/node_modules
+include *.rst
+include COPYING
+
