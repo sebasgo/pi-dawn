@@ -40,7 +40,7 @@ These instructions install Pi Dawn for the default Raspbian user ``pi``. Run all
 
 4.  Install required Raspbian packages::
 
-        sudo apt -y install python3 python3-venv redis-server nginx
+        sudo apt -y install python3 python3-venv redis-server nginx vlc-nox
 
     This installs Python 3 with the ``venv`` module, Redis and Nginx.
 
