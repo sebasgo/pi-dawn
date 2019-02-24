@@ -86,9 +86,9 @@ Prerequisites
 Make sure you have the following software packages available
 on your system:
 
- * Python (≥ 3.5)
- * Node.js (≥ 10.x)
- * Redis
+* Python (≥ 3.5)
+* Node.js (≥ 10.x)
+* Redis
 
 Get the source code
 ~~~~~~~~~~~~~~~~~~~
