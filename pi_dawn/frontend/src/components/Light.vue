@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height justify-center>
-    <v-btn-toggle :input-value="toggleValue"><v-btn outline value="on" class="power-button" color="primary" @click="toggle">
-        <v-icon class="power-button-icon">power_settings_new</v-icon>
+    <v-btn-toggle :input-value="toggleValue"><v-btn outlined value="on" class="power-button" color="primary" @click="toggle">
+        <v-icon class="power-button-icon">mdi-power</v-icon>
       </v-btn>
     </v-btn-toggle>
   </v-container>
@@ -32,10 +32,10 @@ export default {
 </script>
 
 <style>
-.v-btn.power-button {
-    height: auto;
-}
 
+.v-btn.power-button {
+    height: auto !important;
+}
 
 .power-button-icon {
   width: 70vw;
@@ -43,6 +43,5 @@ export default {
   margin: auto;
   font-size: 70vw !important;
 }
-
 
 </style>

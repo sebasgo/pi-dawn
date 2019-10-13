@@ -1,53 +1,49 @@
 <template>
-  <v-container fluid grid-list-lg>
-    <v-layout row wrap v-for="alarm in alarms" :key="alarm.id">
-      <v-flex xs12>
+  <v-container fluid>
+    <v-row v-for="alarm in alarms" :key="alarm.id">
+      <v-col>
         <v-card>
-          <v-container fluid grid-list-lg>
-            <v-layout row>
-              <v-flex xs12 flexbox>
-                <h3 class="display-1" v-on:click="setTime(alarm)">{{ alarm.time }}</h3>
-              </v-flex>
-              <v-flex>
-                <v-switch :input-value="alarm.enabled" @change="toggleAlarmEnabled(alarm)" color="primary"/>
-              </v-flex>
-            </v-layout>
-            <v-layout row>
-              <v-flex xs12>
+          <v-container fluid>
+            <v-row no-gutters justify="space-between">
+              <v-col align-self="start">
+                <h3 class="display-1 time-label" v-on:click="setTime(alarm)">{{ alarm.time }}</h3>
+              </v-col>
+              <v-switch class="d-flex align-center alarm-toggle" :input-value="alarm.enabled" @change="toggleAlarmEnabled(alarm)" color="primary" dense hide-details align-self="center"/>
+            </v-row>
+            <v-row no-gutters>
+              <v-col cols="12">
                 <v-checkbox :input-value="alarm.repeat" @change="toggleAlarmRepeat(alarm)" label="Repeat" color="primary" hide-details/>
-              </v-flex>
-            </v-layout>
-            <v-layout v-if="alarm.repeat" row justify-space-between wrap>
-              <v-flex class="repeat-day-cell" v-for="day in repeatDays(alarm)" :key="day.id">
-                <v-avatar v-on:click="toggleAlarmRepeatDay(alarm, day)" v-bind:class="{ indigo: day.on }" size="32px">
-                  <span class="white--text">{{day.label}}</span>
-                </v-avatar>
-              </v-flex>
-            </v-layout>
-            <v-layout row v-if="alarm.nextAlarm">
-              <v-flex xs12>
+              </v-col>
+            </v-row>
+            <v-row no-gutters v-if="alarm.repeat" justify="space-between">
+              <v-avatar class="d-flex repeat-day" v-for="day in repeatDays(alarm)" :key="day.id" v-on:click="toggleAlarmRepeatDay(alarm, day)" v-bind:class="{ indigo: day.on }" size="32px">
+                <span class="white--text">{{day.label}}</span>
+              </v-avatar>
+            </v-row>
+            <v-row v-if="alarm.nextAlarm">
+              <v-col>
                 Rings {{ nextAlarmLabel(alarm.nextAlarm) }}
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-container>
           <v-card-actions>
-            <v-btn v-on:click="deleteAlarm(alarm)" flat color="red">Delete</v-btn>
+            <v-btn v-on:click="deleteAlarm(alarm)" text color="red">Delete</v-btn>
           </v-card-actions>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
 
-    <v-layout row justify-center>
+    <v-row justify="center">
       <v-dialog ref="timePickerDialog" v-model="timePickerVisible" width="290px">
         <v-time-picker v-model="timePickerTime" actions format="24hr" >
           <v-spacer/>
-            <v-btn flat color="primary" v-on:click="cancelTimePicker()">Cancel</v-btn>
-            <v-btn flat color="primary" v-on:click="saveTimePickerAlarm()">OK</v-btn>
+            <v-btn text v-on:click="cancelTimePicker()">Cancel</v-btn>
+            <v-btn color="primary" v-on:click="saveTimePickerAlarm()">OK</v-btn>
         </v-time-picker>
       </v-dialog>
-    </v-layout>
+    </v-row>
 
-    <v-btn id="add-btn" dark fab fixed bottom right color="primary" @click.native.stop="addAlarm"><v-icon>add</v-icon></v-btn>
+    <v-btn id="add-btn" dark fab fixed bottom right color="primary" @click.native.stop="addAlarm"><v-icon>mdi-plus</v-icon></v-btn>
   </v-container>
 </template>
 
@@ -140,12 +136,18 @@ export default {
     bottom: 70px;
   }
 
+  /* Center the time label in time picker dialog */
   .v-time-picker-title__time {
     margin: auto !important;
   }
 
-  .repeat-day-cell {
+  /* Remove top margin of input for proper vertical alignment with time label */
+  .alarm-toggle {
+    margin-top: 0px !important;
+  }
+
+  .repeat-day {
+    margin-top: 16px;
     cursor: pointer;
-    flex: 0;
   }
 </style>
