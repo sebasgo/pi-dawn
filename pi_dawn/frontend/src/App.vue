@@ -20,6 +20,10 @@
         <span>Light</span>
         <v-icon>mdi-lightbulb-outline</v-icon>
       </v-btn>
+      <v-btn to='/radio' router>
+        <span>Radio</span>
+        <v-icon>mdi-radio</v-icon>
+      </v-btn>
     </v-bottom-navigation>
   </v-app>
 </template>
