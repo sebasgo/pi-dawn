@@ -1,7 +1,7 @@
 <template>
     <v-container fill-height justify-center>
-        <v-card class="pa-3 text-xs-center">
-            <v-icon id="four-oh-four-icon" color="yellow accent-2">warning</v-icon>
+        <v-card class="pa-3 text-center">
+            <v-icon id="four-oh-four-icon">mdi-alert-outline</v-icon>
             <h1>404 Light Not Found</h1>
         </v-card>
     </v-container>

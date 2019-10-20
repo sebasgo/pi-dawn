@@ -61,8 +61,8 @@ These instructions install Pi Dawn for the default Raspbian user ``pi``. Run all
 8.  Setup services::
 
         sudo -s
-        FLASK_APP=pi_dawn ./pi-dawn/bin/flask setup_nginx
-        FLASK_APP=pi_dawn ./pi-dawn/bin/flask install_services
+        FLASK_APP=pi_dawn ./pi-dawn/bin/flask setup-nginx
+        FLASK_APP=pi_dawn ./pi-dawn/bin/flask install-services
         exit
 
     The first command will add a new site to act as a proxy for the
@@ -86,9 +86,9 @@ Prerequisites
 Make sure you have the following software packages available
 on your system:
 
- * Python (≥ 3.5)
- * Node.js (≥ 10.x)
- * Redis
+* Python (≥ 3.5)
+* Node.js (≥ 10.x)
+* Redis
 
 Get the source code
 ~~~~~~~~~~~~~~~~~~~

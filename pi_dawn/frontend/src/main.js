@@ -1,76 +1,24 @@
+import '@mdi/font/css/materialdesignicons.css'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
-import Vuetify, {
-  VApp,
-  VAvatar,
-  VBottomNav,
-  VBtn,
-  VBtnToggle,
-  VCard,
-  VCardActions,
-  VCardOptions,
-  VCheckbox,
-  VContainer,
-  VContent,
-  VDialog,
-  VFlex,
-  VFooter,
-  VGrid,
-  VIcon,
-  VLayout,
-  VSpacer,
-  VSwitch,
-  VTimePicker,
-  VToolbar,
-  VToolbarTitle,
-  transitions
-} from 'vuetify/lib'
-
-import {
-  Ripple
-} from 'vuetify/lib/directives'
-
-require('vuetify/src/stylus/app.styl')
+import Vuetify from 'vuetify/lib'
 
 require('./assets/fonts.css')
 
-Vue.use(Vuetify, {
-  components: {
-    VApp,
-    VAvatar,
-    VBottomNav,
-    VBtn,
-    VBtnToggle,
-    VCard,
-    VCardActions,
-    VCardOptions,
-    VCheckbox,
-    VContainer,
-    VContent,
-    VDialog,
-    VFlex,
-    VFooter,
-    VGrid,
-    VIcon,
-    VLayout,
-    VSpacer,
-    VSwitch,
-    VTimePicker,
-    VToolbar,
-    VToolbarTitle,
-    transitions
-  },
-  directives: {
-    Ripple
-  }
-})
+Vue.use(Vuetify)
+
+const opts = {
+    theme: {
+        dark: true
+    }
+}
 
 new Vue({
   el: '#app',
   router,
   store,
+  vuetify: new Vuetify(opts),
   render: h => h(App)
 })
