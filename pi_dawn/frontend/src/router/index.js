@@ -4,6 +4,7 @@ import Alarms from '@/components/Alarms'
 import FourOhFour from '@/components/FourOhFour'
 import Light from '@/components/Light'
 import Radio from '@/components/Radio'
+import RadioStationsDialog from '@/components/RadioStationsDialog'
 
 Vue.use(Router)
 
@@ -16,22 +17,24 @@ export default new Router({
     },
     {
       path: '/alarms',
-      name: 'Alarms',
       component: Alarms
     },
     {
       path: '/light',
-      name: 'Light',
       component: Light
     },
     {
       path: '/radio',
-      name: 'Radio',
-      component: Radio
+      component: Radio,
+      children: [
+        {
+          path: 'stations',
+          component: RadioStationsDialog
+        }
+      ]
     },
     {
       path: '*',
-      name: 'FourOhFour',
       component: FourOhFour
     }
   ]

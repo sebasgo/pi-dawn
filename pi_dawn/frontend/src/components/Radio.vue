@@ -13,7 +13,9 @@
                 </v-card>
             </v-col>
             <v-col cols="12">
-                <v-btn class="ma-3" icon><v-icon>mdi-playlist-music</v-icon></v-btn>
+                <v-btn to="/radio/stations" class="ma-3" icon router>
+                    <v-icon>mdi-playlist-music</v-icon>
+                </v-btn>
                 <v-btn class="ma-3" fab color="primary"><v-icon>mdi-pause</v-icon></v-btn>
                 <v-menu top offset-y nudge-top="20">
                     <template v-slot:activator="{ on }">
@@ -27,6 +29,8 @@
                 </v-menu>
             </v-col>
         </v-row>
+
+        <router-view></router-view>
     </v-container>
 </template>
 
