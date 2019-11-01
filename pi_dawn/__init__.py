@@ -85,6 +85,50 @@ def delete_alarm(id):
     return '', 204
 
 
+@app.route('/api/1.0/radio_station', methods=['GET'])
+def get_radio_stations():
+    stations = model.RadioStation.query.all()
+    return flask.jsonify([station.to_dict() for station in stations])
+
+
+@app.route('/api/1.0/radio_station', methods=['POST'])
+def add_radio_station():
+    station = model.RadioStation()
+    station.update_from_dict(flask.request.json)
+    model.db.session.add(station)
+    model.db.session.commit()
+    return flask.jsonify(station.to_dict())
+
+
+@app.route('/api/1.0/radio_station/<int:id>', methods=['GET'])
+def get_radio_station(id):
+    station = model.RadioStation.query.filter(model.RadioStation.id == id).first()
+    if station is None:
+        flask.abort(404)
+    return flask.jsonify(station.to_dict())
+
+
+@app.route('/api/1.0/radio_station/<int:id>', methods=['PATCH'])
+def update_radio_station(id):
+    station = model.RadioStation.query.filter(model.RadioStation.id == id).first()
+    if station is None:
+        flask.abort(404)
+    station.update_from_dict(flask.request.json)
+    model.db.session.add(station)
+    model.db.session.commit()
+    return flask.jsonify(station.to_dict())
+
+
+@app.route('/api/1.0/radio_station/<int:id>', methods=['DELETE'])
+def delete_radio_station(id):
+    station = model.RadioStation.query.filter(model.RadioStation.id == id).first()
+    if station is None:
+        flask.abort(404)
+    model.db.session.delete(station)
+    model.db.session.commit()
+    return '', 204
+
+
 @app.route('/api/1.0/light', methods = ['GET'])
 def get_light():
     state = comm.get_state(app)

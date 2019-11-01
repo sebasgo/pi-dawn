@@ -51,3 +51,34 @@ class Alarm(db.Model):
         self.next_alarm = None
 
 
+class RadioStation(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False, default='')
+    description = db.Column(db.String, nullable=False, default='')
+    stream_url = db.Column(db.String, nullable=False, default='')
+    homepage_url = db.Column(db.String, nullable=False, default='')
+    artwork_url = db.Column(db.String, nullable=False, default='')
+    codec = db.Column(db.String, nullable=False, default='')
+    bitrate = db.Column(db.Integer, nullable=False, default=0)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'stream_url': self.stream_url,
+            'homepage_url': self.homepage_url,
+            'artwork_url': self.artwork_url,
+            'codec': self.codec,
+            'bitrate': self.bitrate,
+        }
+
+    def update_from_dict(self, data):
+        self.name = data.get('name', self.name)
+        self.description = data.get('description', self.description)
+        self.stream_url = data.get('stream_url', self.stream_url)
+        self.homepage_url = data.get('homepage_url', self.homepage_url)
+        self.artwork_url = data.get('artwork_url', self.artwork_url)
+        self.codec = data.get('codec', self.codec)
+        self.bitrate = data.get('bitrate', self.bitrate)
