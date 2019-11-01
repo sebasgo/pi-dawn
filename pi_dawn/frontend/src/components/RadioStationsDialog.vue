@@ -9,6 +9,12 @@
         <v-toolbar-title>Radio Stations</v-toolbar-title>
       </v-app-bar>
 
+      <v-list two-line v-model="selectedRadioStation">
+        <v-list-item-group v-model="item" color="primary">
+          <RadioStationListItem v-for="station in radio_stations" :station="station" :key="station.id"></RadioStationListItem>
+        </v-list-item-group>
+      </v-list>
+
       <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="fade">
         <template v-slot:activator>
           <v-btn v-model="fab" dark fab color="primary">
@@ -39,16 +45,29 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+  import RadioStationListItem from './RadioStationListItem.vue'
+
   export default {
+      components: {
+          RadioStationListItem
+      },
       data () {
           return {
+              selectedRadioStation: null,
               fab: false
           }
       },
+      computed: mapGetters({
+          radio_stations: 'radio_stations'
+      }),
       methods: {
           goBack () {
               this.$router.go(-1)
           }
+      },
+      created () {
+          this.$store.dispatch('getRadioStations')
       }
   }
 </script>
