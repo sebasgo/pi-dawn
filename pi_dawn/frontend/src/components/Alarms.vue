@@ -136,11 +136,6 @@ export default {
     bottom: 70px;
   }
 
-  /* Center the time label in time picker dialog */
-  .v-time-picker-title__time {
-    margin: auto !important;
-  }
-
   /* Remove top margin of input for proper vertical alignment with time label */
   .alarm-toggle {
     margin-top: 0px !important;
@@ -149,5 +144,12 @@ export default {
   .repeat-day {
     margin-top: 16px;
     cursor: pointer;
+  }
+</style>
+
+<style>
+  /* Center the time label in time picker dialog */
+  .v-time-picker-title__time {
+    margin: auto !important;
   }
 </style>
