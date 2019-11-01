@@ -131,7 +131,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   #add-btn {
     bottom: 70px;
   }

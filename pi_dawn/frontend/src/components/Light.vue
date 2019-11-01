@@ -31,7 +31,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .v-btn.power-button {
     height: auto !important;

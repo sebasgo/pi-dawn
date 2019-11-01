@@ -7,7 +7,7 @@
     </v-container>
 </template>
 
-<style>
+<style scoped>
     #four-oh-four-icon {
         font-size: 12em;
     }
