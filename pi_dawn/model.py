@@ -42,9 +42,9 @@ class Alarm(db.Model):
             day_offsets = [d - wd for d in range(wd, wd+8) if (2**(d%7)) & self.repeat_days]
         else:
             day_offsets = [0, 1]
-        print(day_offsets)
         for day_offset in day_offsets:
-            next_alarm = datetime.datetime(today.year, today.month, today.day+day_offset, hour, minute)
+            next_alarm = datetime.datetime(today.year, today.month, today.day, hour, minute)
+            next_alarm += datetime.timedelta(days=day_offset)
             if next_alarm > now:
                 self.next_alarm = next_alarm
                 return
