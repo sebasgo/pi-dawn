@@ -6,7 +6,10 @@ const state = {
 }
 
 const getters = {
-  radio_stations: state => state.radio_stations
+  radio_stations: state => state.radio_stations,
+  getStationById: (state) => (id) => {
+    return state.radio_stations.find(s => s.id === id)
+  }
 }
 
 const actions = {

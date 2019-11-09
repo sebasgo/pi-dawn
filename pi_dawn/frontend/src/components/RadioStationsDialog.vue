@@ -10,8 +10,12 @@
       </v-app-bar>
 
       <v-list two-line v-model="selectedRadioStation">
-        <v-list-item-group v-model="item" color="primary">
-          <RadioStationListItem v-for="station in radio_stations" :station="station" :key="station.id"></RadioStationListItem>
+        <v-list-item-group v-model="selectedRadioStation" color="primary">
+          <RadioStationListItem
+              v-for="station in radio_stations"
+              :station="station" :key="station.id"
+              v-on:edit="editStation(station)">
+          </RadioStationListItem>
         </v-list-item-group>
       </v-list>
 
@@ -24,7 +28,7 @@
         </template>
         <v-tooltip left :value="true">
           <template v-slot:activator="{ on }">
-            <v-btn dark small fab primary v-on="on">
+            <v-btn dark small fab primary v-on="on" v-on:click="addStation()">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </template>
@@ -41,21 +45,28 @@
       </v-speed-dial>
 
     </v-card>
+
+    <RadioStationEditDialog v-model="editDialogVisible" :station_id="editDialogRadioStationId"></RadioStationEditDialog>
+
   </v-dialog>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import RadioStationListItem from './RadioStationListItem.vue'
+  import RadioStationEditDialog from './RadioStationEditDialog.vue'
 
   export default {
       components: {
-          RadioStationListItem
+          RadioStationListItem,
+          RadioStationEditDialog
       },
       data () {
           return {
               selectedRadioStation: null,
-              fab: false
+              fab: false,
+              editDialogVisible: false,
+              editDialogRadioStationId: {}
           }
       },
       computed: mapGetters({
@@ -64,6 +75,14 @@
       methods: {
           goBack () {
               this.$router.go(-1)
+          },
+          addStation () {
+              this.editDialogRadioStationId = null
+              this.editDialogVisible = true
+          },
+          editStation (station) {
+              this.editDialogRadioStationId = station.id
+              this.editDialogVisible = true
           }
       },
       created () {

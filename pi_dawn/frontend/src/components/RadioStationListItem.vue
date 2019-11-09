@@ -14,7 +14,7 @@
       </v-list-item-subtitle>
     </v-list-item-content>
       <v-list-item-action>
-        <v-btn icon v-on:click.stop="">
+        <v-btn icon v-on:click.stop="$emit('edit')">
           <v-icon color="grey lighten-1">mdi-pencil</v-icon>
         </v-btn>
       </v-list-item-action>
