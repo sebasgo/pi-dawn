@@ -41,7 +41,7 @@ const mutations = {
     state.alarms = alarms
   },
   [types.SORT_ALARMS] (state) {
-    state.alarms.sort((a, b) => a.time > b.time)
+    state.alarms.sort((a, b) => a.time.localeCompare(b.time))
   },
   [types.ADD_ALARM] (state, { alarm } ) {
     state.alarms.push(alarm)

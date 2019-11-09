@@ -41,7 +41,9 @@ const mutations = {
     state.radio_stations = radio_stations
   },
   [types.SORT_RADIO_STATIONS] (state) {
-    state.radio_stations.sort((a, b) => a.name > b.name)
+    state.radio_stations.sort((a, b) => {
+      return a.name.localeCompare(b.name)
+    })
   },
   [types.ADD_RADIO_STATION] (state, { radio_station } ) {
     state.radio_stations.push(radio_station)
