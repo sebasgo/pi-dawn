@@ -81,6 +81,10 @@ def main():
         elif isinstance(msg, comm.ReloadAlarmsMessage):
             model.db.session.rollback()
             alarms = model.Alarm.query.order_by(model.Alarm.time).all()
+        elif isinstance(msg, comm.SetActiveRadioStationMessage):
+            state.active_radio_station = msg.id
+        elif isinstance(msg, comm.SetVolumeMessage):
+            state.volume = msg.volume
         configure_led_screen(state, alarms, led_screen, sunrise_alarm)
         reschedule_alarms(alarms)
         comm.set_state(app, state)

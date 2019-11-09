@@ -129,6 +129,36 @@ def delete_radio_station(id):
     return '', 204
 
 
+@app.route('/api/1.0/radio/station', methods = ['GET'])
+def get_active_radio_station():
+    state = comm.get_state(app)
+    return flask.jsonify({'id': state.active_radio_station})
+
+
+@app.route('/api/1.0/radio/station', methods = ['PATCH'])
+def patch_active_radio_station():
+    state = comm.get_state(app)
+    new_value = int(flask.request.json.get('id'))
+    if new_value != state.active_radio_station:
+         comm.send_message(app, comm.SetActiveRadioStationMessage(id=new_value))
+    return flask.jsonify({'id': new_value})
+
+
+@app.route('/api/1.0/radio/volume', methods = ['GET'])
+def get_volume():
+    state = comm.get_state(app)
+    return flask.jsonify({'volume': state.volume})
+
+
+@app.route('/api/1.0/radio/volume', methods = ['PATCH'])
+def patch_volume():
+    state = comm.get_state(app)
+    new_value = int(flask.request.json.get('volume'))
+    if new_value != state.volume:
+         comm.send_message(app, comm.SetVolumeMessage(volume=new_value))
+    return flask.jsonify({'volume': new_value})
+
+
 @app.route('/api/1.0/light', methods = ['GET'])
 def get_light():
     state = comm.get_state(app)
