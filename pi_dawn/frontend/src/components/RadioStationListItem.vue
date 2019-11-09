@@ -5,13 +5,7 @@
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title v-text="station.name"></v-list-item-title>
-      <v-list-item-subtitle>
-        <span v-text="station.description"></span>
-        &middot;
-        {{ station.codec }}
-        &middot;
-        {{ station.bitrate }}&nbsp;kbps
-      </v-list-item-subtitle>
+      <v-list-item-subtitle v-text="format_subtitle(station)"></v-list-item-subtitle>
     </v-list-item-content>
       <v-list-item-action>
         <v-btn icon v-on:click.stop="$emit('edit')">
@@ -27,6 +21,12 @@ export default {
     station: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    format_subtitle (station) {
+      var details = [station.description, station.codec, "" + station.bitrate + " kbps"]
+        return details.filter(s => s !== "").join(" · ")
     }
   }
 }
