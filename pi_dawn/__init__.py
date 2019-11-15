@@ -3,6 +3,7 @@ import subprocess
 import os
 import sys
 
+import attr
 import click
 import flask
 
@@ -129,34 +130,23 @@ def delete_radio_station(id):
     return '', 204
 
 
-@app.route('/api/1.0/radio/station', methods = ['GET'])
-def get_active_radio_station():
+@app.route('/api/1.0/radio', methods = ['GET'])
+def get_radio():
     state = comm.get_state(app)
-    return flask.jsonify({'id': state.active_radio_station})
+    return flask.jsonify(attr.asdict(state.radio))
 
 
-@app.route('/api/1.0/radio/station', methods = ['PATCH'])
-def patch_active_radio_station():
+@app.route('/api/1.0/radio', methods = ['PATCH'])
+def patch_radio():
     state = comm.get_state(app)
-    new_value = int(flask.request.json.get('id'))
-    if new_value != state.active_radio_station:
-         comm.send_message(app, comm.SetActiveRadioStationMessage(id=new_value))
-    return flask.jsonify({'id': new_value})
-
-
-@app.route('/api/1.0/radio/volume', methods = ['GET'])
-def get_volume():
-    state = comm.get_state(app)
-    return flask.jsonify({'volume': state.volume})
-
-
-@app.route('/api/1.0/radio/volume', methods = ['PATCH'])
-def patch_volume():
-    state = comm.get_state(app)
-    new_value = int(flask.request.json.get('volume'))
-    if new_value != state.volume:
-         comm.send_message(app, comm.SetVolumeMessage(volume=new_value))
-    return flask.jsonify({'volume': new_value})
+    data = flask.request.json
+    new_value = comm.RadioState(**attr.asdict(state.radio))
+    new_value.is_playing = bool(data.get('is_playing', new_value.is_playing))
+    new_value.station = int(data.get('station', new_value.station))
+    new_value.volume = int(data.get('volume', new_value.volume))
+    if new_value != state.radio:
+         comm.send_message(app, comm.SetRadioStateMessage(state=new_value))
+    return flask.jsonify(attr.asdict(new_value))
 
 
 @app.route('/api/1.0/light', methods = ['GET'])

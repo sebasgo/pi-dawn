@@ -20,13 +20,8 @@ class SetLightStateMessage(Message):
 
 
 @attr.s
-class SetActiveRadioStationMessage(Message):
-    id = attr.ib(type=int)
-
-
-@attr.s
-class SetVolumeMessage(Message):
-    volume = attr.ib(type=int)
+class SetRadioStateMessage(Message):
+    state = attr.ib()
 
 
 @attr.s
@@ -35,11 +30,17 @@ class ReloadAlarmsMessage(Message):
 
 
 @attr.s
+class RadioState:
+    is_playing = attr.ib(type=bool, converter=bool, default=False)
+    station = attr.ib(type=int, default=-1)
+    volume = attr.ib(type=int, default=50)
+
+
+@attr.s
 class State:
     light_on = attr.ib(type=bool, default=False)
     active_alarm = attr.ib(type=int, default=-1)
-    active_radio_station = attr.ib(type=int, default=-1)
-    volume = attr.ib(type=int, default=50)
+    radio = attr.ib(type=RadioState, default=RadioState())
 
 
 def send_message(app, message):
