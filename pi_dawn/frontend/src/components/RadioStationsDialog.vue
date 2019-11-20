@@ -9,8 +9,8 @@
         <v-toolbar-title>Radio Stations</v-toolbar-title>
       </v-app-bar>
 
-      <v-list two-line v-model="selectedRadioStation">
-        <v-list-item-group v-model="selectedRadioStation" color="primary">
+      <v-list two-line v-model="selectedRadioStationIndex">
+        <v-list-item-group v-model="selectedRadioStationIndex" color="primary">
           <RadioStationListItem
               v-for="station in radio_stations"
               :station="station" :key="station.id"
@@ -63,7 +63,7 @@
       },
       data () {
           return {
-              selectedRadioStation: null,
+              selectedRadioStationIndex: null,
               fab: false,
               editDialogVisible: false,
               editDialogRadioStationId: {}
@@ -72,6 +72,13 @@
       computed: mapGetters({
           radio_stations: 'radio_stations'
       }),
+      watch: {
+          selectedRadioStationIndex () {
+              let station = this.radio_stations[this.selectedRadioStationIndex].id
+              this.$store.dispatch("setRadioState", {station})
+              this.goBack()
+          }
+      },
       methods: {
           goBack () {
               this.$router.go(-1)

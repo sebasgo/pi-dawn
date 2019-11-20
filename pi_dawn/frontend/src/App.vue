@@ -38,6 +38,8 @@
       reload () {
         this.$store.dispatch('getAlarms')
         this.$store.dispatch('getLight')
+        this.$store.dispatch('getRadioStations')
+        this.$store.dispatch('getRadioState')
       }
     }
   }
