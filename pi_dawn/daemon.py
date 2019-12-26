@@ -4,8 +4,9 @@ import datetime
 from pi_dawn import app
 from pi_dawn import comm
 from pi_dawn import graphics
-from pi_dawn import model
 from pi_dawn import hw
+from pi_dawn import model
+from pi_dawn import radio
 
 
 def shutdown(signum, frame):
@@ -70,6 +71,7 @@ def main():
                               gamma_g=app.config['GAMMA_G'])
     sunrise_alarm = graphics.Sunrise(led_screen)
     alarms = model.Alarm.query.order_by(model.Alarm.time).all()
+    player = radio.RadioPlayer()
 
     while True:
         msg = comm.receive_message(app, timeout=1)
@@ -83,6 +85,13 @@ def main():
             alarms = model.Alarm.query.order_by(model.Alarm.time).all()
         elif isinstance(msg, comm.SetRadioStateMessage):
             state.radio = msg.state
+            player.volume = state.radio.volume
+            if state.radio.is_playing:
+                station = model.RadioStation.query.filter(model.RadioStation.id == state.radio.station).first()
+                player.station = station
+            else:
+                player.station = None
+
         configure_led_screen(state, alarms, led_screen, sunrise_alarm)
         reschedule_alarms(alarms)
         comm.set_state(app, state)

@@ -40,6 +40,7 @@ setup(
         'click',
         'Flask',
         'Flask-SQLAlchemy',
+        'python-vlc',
         'redis',
     ],
     extras_require={
